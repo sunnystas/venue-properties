@@ -4,10 +4,11 @@ module.exports = (sequelize, DataTypes) => {
     'Property',
     {
       title: DataTypes.STRING,
+      propertyHereId: DataTypes.STRING,
       lat: DataTypes.FLOAT,
       lng: DataTypes.FLOAT,
       address: DataTypes.STRING,
-      href: DataTypes.STRING
+      href: DataTypes.TEXT
     },
     {
       freezeTableName: true

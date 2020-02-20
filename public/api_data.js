@@ -6,6 +6,19 @@ define({ "api": [
     "version": "0.1.0",
     "group": "Bookings",
     "description": "<p>Get all bookings of a property</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "propId",
+            "description": "<p>Unique id of the property from the external HERE API</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "fields": {
         "Result 200": [
@@ -28,16 +41,23 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"propertyName\": \"Some property name\",\n  \"bookings\": [\n    {\n      \"id\": 1,\n      \"title\": \"Booking title\",\n      \"dateStart\": 2020-02-20,\n      \"dateEnd\": 2020-02-20\n    },\n    {\n      \"id\": 2,\n      \"title\": \"Booking title\",\n      \"dateStart\": 2020-02-20,\n      \"dateEnd\": 2020-02-20\n    }\n  ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  \"bookings\": [\n    {\n      \"id\": 1,\n      \"title\": \"Booking title\",\n      \"propertyHereId\": \"804u8x8x-1b5c53d440484368b1794653005bafa8\",\n      \"dateStart\": \"2020-02-20\",\n      \"dateEnd\": \"2020-02-20\",\n      \"createdAt\": \"2020-02-20T17:34:22.509Z\",\n      \"updatedAt\": \"2020-02-20T17:34:22.509Z\",\n      \"propertyId\": 3\n    }\n  ]\n}",
           "type": "json"
         }
       ]
     },
     "error": {
       "fields": {
-        "Error 500": [
+        "Error": [
           {
-            "group": "Error 500",
+            "group": "Error",
+            "type": "json",
+            "optional": false,
+            "field": "404",
+            "description": "<p>Not found</p>"
+          },
+          {
+            "group": "Error",
             "type": "json",
             "optional": false,
             "field": "500",
@@ -48,7 +68,12 @@ define({ "api": [
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Server Error\n{\n  \"error\": \"Server Error\"\n}",
+          "content": "HTTP/1.1 404 Not found\n{\n  \"status\": \"Not found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Server Error\n{\n  \"status\": \"Server Error\"\n}",
           "type": "json"
         }
       ]
@@ -60,10 +85,10 @@ define({ "api": [
   {
     "type": "post",
     "url": "/booking",
-    "title": "Create a booking",
+    "title": "Add a booking",
     "version": "0.1.0",
     "group": "Bookings",
-    "description": "<p>Create a booking for a property</p>",
+    "description": "<p>Add a booking to a property</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -100,7 +125,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "{\n  \"propertyId\": 1,\n  \"title\": \"Some title\",\n  \"dateStart\": \"2020-02-20\",\n  \"dateEnd\": \"2020-02-20\"\n}",
+          "content": "{\n  \"propertyHereId\": \"804u8x8x-1b5c53d440484368b1794653005bafa8\",\n  \"title\": \"Some title\",\n  \"dateStart\": \"2020-02-20\",\n  \"dateEnd\": \"2020-02-20\"\n}",
           "type": "json"
         }
       ]
@@ -120,16 +145,23 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 201 Created\n{\n  \"bookingId\": 1,\n  \"propertyName\": \"Some property name\",\n  \"title\": \"Booking title\",\n  \"dateStart\": \"2020-02-20\",\n  \"dateEnd\": \"2020-02-20\"\n}",
+          "content": "HTTP/1.1 201 Created\n{\n  \"bookings\": [\n    {\n      \"id\": 1,\n      \"title\": \"Booking title\",\n      \"propertyHereId\": \"804u8x8x-1b5c53d440484368b1794653005bafa8\",\n      \"dateStart\": \"2020-02-20\",\n      \"dateEnd\": \"2020-02-20\",\n      \"createdAt\": \"2020-02-20T17:34:22.509Z\",\n      \"updatedAt\": \"2020-02-20T17:34:22.509Z\",\n      \"propertyId\": 3\n    }\n  ]\n}",
           "type": "json"
         }
       ]
     },
     "error": {
       "fields": {
-        "Error 500": [
+        "Error": [
           {
-            "group": "Error 500",
+            "group": "Error",
+            "type": "json",
+            "optional": false,
+            "field": "404",
+            "description": "<p>Not found</p>"
+          },
+          {
+            "group": "Error",
             "type": "json",
             "optional": false,
             "field": "500",
@@ -140,7 +172,12 @@ define({ "api": [
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Server Error\n{\n  \"error\": \"Server Error\"\n}",
+          "content": "HTTP/1.1 404 Not found\n{\n  \"status\": \"No such property found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server Error\n{\n  \"status\": \"Server Error\"\n}",
           "type": "json"
         }
       ]
@@ -156,6 +193,19 @@ define({ "api": [
     "version": "0.1.0",
     "group": "Properties",
     "description": "<p>Get all properties at a given location (LAT,LONG)</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "at",
+            "description": "<p>A pair of GEO coordinates LAT,LONG</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "fields": {
         "Result 200": [
@@ -171,16 +221,23 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"properties\": [\n    {\n      \"id\": \"804u8x8x-1b5c53d440484368b1794653005bafa8\",\n      \"title\": \"Some title\",\n      \"position\": [\n        47.90899,\n        33.39279\n      ],\n      \"address\": \"Some address\",\n      \"href\": \"https://places.sit.ls.hereapi.com/places/v1/places/804u8x8x-bfc601f1985443bbb16fdaa7af6bff9b;context=Zmxvdy1pZD1hZDk3MjNlOC01YjJmLTVlMGEtODZjYS1mOTAyOTE2NGU2MGFfMTU4MjE5Mzg4ODgzN182NzYyXzczODUmcmFuaz0w?app_id=P6IrYvzip4zi88vqi9tA&app_code=AUmAgVJEcVaJ6Eh2JblTBA\"\n    },\n    {\n      \"id\": \"804u8x8x-1b5c53d440484368b1794653005bafa8\",\n      \"title\": \"Some title\",\n      \"position\": [\n        47.90899,\n        33.39279\n      ],\n      \"address\": \"Some address\",\n      \"href\": \"https://places.sit.ls.hereapi.com/places/v1/places/804u8x8x-bfc601f1985443bbb16fdaa7af6bff9b;context=Zmxvdy1pZD1hZDk3MjNlOC01YjJmLTVlMGEtODZjYS1mOTAyOTE2NGU2MGFfMTU4MjE5Mzg4ODgzN182NzYyXzczODUmcmFuaz0w?app_id=P6IrYvzip4zi88vqi9tA&app_code=AUmAgVJEcVaJ6Eh2JblTBA\"\n    }\n  ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  \"properties\": [\n    {\n      \"id\": 1,\n      \"title\": \"Some title\",\n      \"propertyHereId\": \"804u8x8x-1b5c53d440484368b1794653005bafa8\",\n      \"lat\": 47.90899,\n      \"lng\": 33.39279,\n      \"address\": \"Some address\",\n      \"href\": \"https://places.sit.ls.hereapi.com/places/v1/places/804u8x8x-bfc601f1985443bbb16fdaa7af6bff9b;context=Zmxvdy1pZD1hZDk3MjNlOC01YjJmLTVlMGEtODZjYS1mOTAyOTE2NGU2MGFfMTU4MjE5Mzg4ODgzN182NzYyXzczODUmcmFuaz0w?app_id=P6IrYvzip4zi88vqi9tA&app_code=AUmAgVJEcVaJ6Eh2JblTBA\"\n      \"createdAt\": \"2020-02-20T17:34:22.509Z\",\n      \"updatedAt\": \"2020-02-20T17:34:22.509Z\"\n    }\n  ]\n}",
           "type": "json"
         }
       ]
     },
     "error": {
       "fields": {
-        "Error 500": [
+        "Error": [
           {
-            "group": "Error 500",
+            "group": "Error",
+            "type": "json",
+            "optional": false,
+            "field": "404",
+            "description": "<p>Not found</p>"
+          },
+          {
+            "group": "Error",
             "type": "json",
             "optional": false,
             "field": "500",
@@ -191,7 +248,12 @@ define({ "api": [
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Server Error\n{\n  \"error\": \"Server Error\"\n}",
+          "content": "HTTP/1.1 404 Not found\n{\n  \"status\": \"Not found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Server Error\n{\n  \"status\": \"Server Error\"\n}",
           "type": "json"
         }
       ]

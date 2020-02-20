@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     'Booking',
     {
       title: DataTypes.STRING,
+      propertyHereId: DataTypes.STRING,
       dateStart: DataTypes.DATEONLY,
       dateEnd: DataTypes.DATEONLY
     },
