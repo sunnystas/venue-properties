@@ -1,4 +1,4 @@
-## Simple book library app
+## Simple venue and bookings app
 
 ## Install and run:
 
