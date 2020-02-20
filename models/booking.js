@@ -4,15 +4,17 @@ module.exports = (sequelize, DataTypes) => {
     'Booking',
     {
       title: DataTypes.STRING,
-      dateStart: DataTypes.DATE,
-      dateEnd: DataTypes.DATE
+      dateStart: DataTypes.DATEONLY,
+      dateEnd: DataTypes.DATEONLY
     },
     {
       freezeTableName: true
     }
   );
   Booking.associate = function(models) {
-    Booking.belongsTo(models.Property);
+    Booking.belongsTo(models.Property, {
+      foreignKey: 'propertyId'
+    });
   };
   return Booking;
 };

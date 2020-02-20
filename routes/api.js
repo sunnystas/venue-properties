@@ -8,7 +8,7 @@ var router = express.Router();
  *
  * @apiDescription Get all properties at a given location (LAT,LONG)
  *
- * @apiSuccess (Success 200) {array} properties An array of properties objects
+ * @apiSuccess (Result 200) {array} properties An array of properties objects
  *
  * @apiSuccessExample {json} Success-Response:
  *      HTTP/1.1 200 OK
@@ -50,27 +50,31 @@ router.get('/properties', function(req, res, next) {
 });
 
 /**
- * @api {get} /properties/:propId/bookings Get bookings
+ * @api {get} /bookings/:propId Get bookings
  * @apiVersion 0.1.0
  * @apiGroup Bookings
  *
  * @apiDescription Get all bookings of a property
  *
- * @apiSuccess (Success 200) {string} propertyId An id of a property
- * @apiSuccess (Success 200) {array} bookings An array of bookings of a property
+ * @apiSuccess (Result 200) {string} propertyId An id of a property
+ * @apiSuccess (Result 200) {array} bookings An array of bookings of a property
  *
  * @apiSuccessExample {json} Success-Response:
  *      HTTP/1.1 200 OK
  *      {
- *        "propertyId": "804u8x8x-1b5c53d440484368b1794653005bafa8",
+ *        "propertyName": "Some property name",
  *        "bookings": [
  *          {
  *            "id": 1,
- *            "title": "Booking title"
+ *            "title": "Booking title",
+ *            "dateStart": 2020-02-20,
+ *            "dateEnd": 2020-02-20
  *          },
  *          {
  *            "id": 2,
- *            "title": "Booking title"
+ *            "title": "Booking title",
+ *            "dateStart": 2020-02-20,
+ *            "dateEnd": 2020-02-20
  *          }
  *        ]
  *      }
@@ -83,27 +87,40 @@ router.get('/properties', function(req, res, next) {
  *       "error": "Server Error"
  *     }
  */
-router.get('/properties/:propId/bookings', function(req, res, next) {
+router.get('/bookings/:propId', function(req, res, next) {
   res.json({});
 });
 
 /**
- * @api {post} /bookings Create a booking
+ * @api {post} /booking Create a booking
  * @apiVersion 0.1.0
  * @apiGroup Bookings
  *
  * @apiDescription Create a booking for a property
  *
- * @apiParam {string} propertyId Unique id of the property
+ * @apiParam {string} propertyId Unique id of the property from the external HERE API
+ * @apiParam {string} title Name/title of a booking
+ * @apiParam {date} dateStart Start date for a booking
+ * @apiParam {date} dateEnd End date for a booking
  *
- * @apiSuccess (Success 200) {json} object An object of a newly created booking for the property
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       "propertyId": 1,
+ *       "title": "Some title",
+ *       "dateStart": "2020-02-20",
+ *       "dateEnd": "2020-02-20"
+ *     }
+ *
+ * @apiSuccess (Result 200) {json} object An object of a newly created booking for the property
  *
  * @apiSuccessExample {json} Success-Response:
  *      HTTP/1.1 201 Created
  *      {
  *        "bookingId": 1,
- *        "propertyId": "804u8x8x-1b5c53d440484368b1794653005bafa8",
- *        "title": "Booking title"
+ *        "propertyName": "Some property name",
+ *        "title": "Booking title",
+ *        "dateStart": "2020-02-20",
+ *        "dateEnd": "2020-02-20"
  *      }
  *
  * @apiError (Error 500) {json} 500 Server Error
@@ -114,7 +131,7 @@ router.get('/properties/:propId/bookings', function(req, res, next) {
  *       "error": "Server Error"
  *     }
  */
-router.post('/bookings', function(req, res, next) {
+router.post('/booking', function(req, res, next) {
   res.json({});
 });
 

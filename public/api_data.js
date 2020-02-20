@@ -1,23 +1,23 @@
 define({ "api": [
   {
     "type": "get",
-    "url": "/properties/:propId/bookings",
+    "url": "/bookings/:propId",
     "title": "Get bookings",
     "version": "0.1.0",
     "group": "Bookings",
     "description": "<p>Get all bookings of a property</p>",
     "success": {
       "fields": {
-        "Success 200": [
+        "Result 200": [
           {
-            "group": "Success 200",
+            "group": "Result 200",
             "type": "string",
             "optional": false,
             "field": "propertyId",
             "description": "<p>An id of a property</p>"
           },
           {
-            "group": "Success 200",
+            "group": "Result 200",
             "type": "array",
             "optional": false,
             "field": "bookings",
@@ -28,7 +28,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"propertyId\": \"804u8x8x-1b5c53d440484368b1794653005bafa8\",\n  \"bookings\": [\n    {\n      \"id\": 1,\n      \"title\": \"Booking title\"\n    },\n    {\n      \"id\": 2,\n      \"title\": \"Booking title\"\n    }\n  ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  \"propertyName\": \"Some property name\",\n  \"bookings\": [\n    {\n      \"id\": 1,\n      \"title\": \"Booking title\",\n      \"dateStart\": 2020-02-20,\n      \"dateEnd\": 2020-02-20\n    },\n    {\n      \"id\": 2,\n      \"title\": \"Booking title\",\n      \"dateStart\": 2020-02-20,\n      \"dateEnd\": 2020-02-20\n    }\n  ]\n}",
           "type": "json"
         }
       ]
@@ -55,11 +55,11 @@ define({ "api": [
     },
     "filename": "routes/api.js",
     "groupTitle": "Bookings",
-    "name": "GetPropertiesPropidBookings"
+    "name": "GetBookingsPropid"
   },
   {
     "type": "post",
-    "url": "/bookings",
+    "url": "/booking",
     "title": "Create a booking",
     "version": "0.1.0",
     "group": "Bookings",
@@ -72,16 +72,44 @@ define({ "api": [
             "type": "string",
             "optional": false,
             "field": "propertyId",
-            "description": "<p>Unique id of the property</p>"
+            "description": "<p>Unique id of the property from the external HERE API</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "title",
+            "description": "<p>Name/title of a booking</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "date",
+            "optional": false,
+            "field": "dateStart",
+            "description": "<p>Start date for a booking</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "date",
+            "optional": false,
+            "field": "dateEnd",
+            "description": "<p>End date for a booking</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n  \"propertyId\": 1,\n  \"title\": \"Some title\",\n  \"dateStart\": \"2020-02-20\",\n  \"dateEnd\": \"2020-02-20\"\n}",
+          "type": "json"
+        }
+      ]
     },
     "success": {
       "fields": {
-        "Success 200": [
+        "Result 200": [
           {
-            "group": "Success 200",
+            "group": "Result 200",
             "type": "json",
             "optional": false,
             "field": "object",
@@ -92,7 +120,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 201 Created\n{\n  \"bookingId\": 1,\n  \"propertyId\": \"804u8x8x-1b5c53d440484368b1794653005bafa8\",\n  \"title\": \"Booking title\"\n}",
+          "content": "HTTP/1.1 201 Created\n{\n  \"bookingId\": 1,\n  \"propertyName\": \"Some property name\",\n  \"title\": \"Booking title\",\n  \"dateStart\": \"2020-02-20\",\n  \"dateEnd\": \"2020-02-20\"\n}",
           "type": "json"
         }
       ]
@@ -119,7 +147,7 @@ define({ "api": [
     },
     "filename": "routes/api.js",
     "groupTitle": "Bookings",
-    "name": "PostBookings"
+    "name": "PostBooking"
   },
   {
     "type": "get",
@@ -130,9 +158,9 @@ define({ "api": [
     "description": "<p>Get all properties at a given location (LAT,LONG)</p>",
     "success": {
       "fields": {
-        "Success 200": [
+        "Result 200": [
           {
-            "group": "Success 200",
+            "group": "Result 200",
             "type": "array",
             "optional": false,
             "field": "properties",

@@ -14,7 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Property.associate = function(models) {
-    Property.hasMany(models.Booking);
+    Property.hasMany(models.Booking, {
+      foreignKey: 'propertyId'
+    });
   };
   return Property;
 };
